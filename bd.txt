@@ -1,0 +1,77 @@
+Colección: Personas
+----------------------
+- _id
+- tipo_persona (cliente / empleado)
+- nombre
+- apellido
+- email
+- telefono
+- direccion
+- cargo
+- fecha_ingreso
+- especialidad
+- usuario
+- contrasena
+Relaciones:
+- 1:N con Reparaciones (una persona puede estar relacionada con muchas reparaciones)
+
+Colección: Equipos
+----------------------
+- _id
+- tipo_equipo
+- marca
+- modelo
+- numero_serie
+- fecha_compra
+- garantia
+- ubicacion
+- estado
+Relaciones:
+- 1:N con Reparaciones (un equipo puede tener muchas reparaciones)
+
+Colección: Reparaciones
+----------------------
+- _id
+- equipo_id (referencia a Equipos)
+- persona_id (referencia a Personas)
+- fecha_apertura
+- fecha_cierre
+- estado
+- descripcion_problema
+- solucion
+- piezas_utilizadas (array de referencias a Productos con cantidad)
+- costo_total
+- observaciones
+Relaciones:
+- N:1 con Equipos (una reparación pertenece a un equipo)
+- N:1 con Personas (una reparación realizada por/para una persona)
+- N:N con Productos (muchos productos utilizados en muchas reparaciones)
+
+Colección: Productos
+----------------------
+- _id
+- nombre
+- descripcion
+- marca
+- modelo
+- precio_compra
+- stock
+- ubicacion
+Relaciones:
+- N:N con Reparaciones (un producto puede ser usado en muchas reparaciones)
+
+Colección: Facturas
+----------------------
+- _id
+- numero_factura
+- fecha_emision
+- persona_id (referencia a Personas)
+- reparacion_id (referencia a Reparaciones)
+- items (array de productos, con producto_id, cantidad, precio_unitario)
+- subtotal
+- impuestos
+- total
+- forma_pago
+Relaciones:
+- N:1 con Reparaciones (una factura está asociada a una reparación)
+- N:1 con Personas (una factura está asociada a una persona)
