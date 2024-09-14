@@ -1,17 +1,23 @@
+"use client";
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import useLogin from '@/hooks/useLogin';
 export default function Login() {
+  const { loginData, error, handleChange, handleSubmit } = useLogin();
   return (
     <div className="min-vh-100 d-flex justify-content-center align-items-center bg-light">
       <div className="bg-white p-4 rounded shadow w-100" style={{ maxWidth: '400px' }}>
         <h2 className="text-center mb-4">Iniciar Sesión</h2>
-        <form>
+        {error && <div className="alert alert-danger">{error}</div>}
+        <form onSubmit={handleSubmit}>
           <div className="mb-3">
-            <label htmlFor="email" className="form-label">Correo Electrónico</label>
+            <label htmlFor="email" className="form-label">Correo Electrónico/Usuario</label>
             <input
-              type="email"
+              type="text"
               className="form-control"
-              id="email"
+              id="emailOrUsername"
+              value={loginData.emailOrUsername}
+              name='emailOrUsername'
+              onChange={handleChange}
               placeholder="Ingresa tu correo electrónico"
             />
           </div>
@@ -22,6 +28,9 @@ export default function Login() {
               type="password"
               className="form-control"
               id="password"
+              value={loginData.password}
+              name='password'
+              onChange={handleChange}
               placeholder="Ingresa tu contraseña"
             />
           </div>
