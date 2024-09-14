@@ -9,7 +9,7 @@ class AuthCrtl {
       const { username, pass } = req.body;
       const user = await this.personService.login(username, pass);
       if (!user) {
-        return res.status(400).json({message: "User not found"});
+        return res.status(400).json({ status:400,message: "Credenciales inválidas!." });
       }
       const token = generateToken({id: user._id, role: user.role});
       const dataUser = {

@@ -35,7 +35,7 @@ class Server {
 
   private routes(): void {
     this.app.use(routerTest);
-    this.app.use(routerAuth);
+    this.app.use('/api/',routerAuth);
   }
 
 
