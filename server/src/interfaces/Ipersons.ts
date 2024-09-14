@@ -1,4 +1,6 @@
-interface Iperson {
+import { Document, Types } from 'mongoose';
+interface Iperson extends Document {
+  _id: Types.ObjectId;
   typePerson: string;
   names: string;
   lastname: string;

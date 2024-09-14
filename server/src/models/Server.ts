@@ -5,6 +5,7 @@ import { connectDB } from "../database/db";
 import morgan from "morgan";
 import cors from "cors";
 import routerTest from "../routes/routes";
+import routerAuth from "../routes/auth.routes";
 class Server {
   private app: Application;
   private port: port;
@@ -34,6 +35,7 @@ class Server {
 
   private routes(): void {
     this.app.use(routerTest);
+    this.app.use(routerAuth);
   }
 
 
