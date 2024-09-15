@@ -2,7 +2,7 @@ import Iperson from "../interfaces/Ipersons";
 import Person from "../models/Person";
 import { log } from "console";
 import { PersonType } from "../types/types";
-
+import bcrypt from "bcrypt";
 class PersonService {
   private person: typeof Person;
 
@@ -30,8 +30,14 @@ class PersonService {
 
   public async login(username: string, pass: string) {
     try {
-      const person = await this.person.findOne({ username, pass }).lean();
+      const person = await this.person.findOne({ username: username }).lean();
+      log(person);
+
       if (!person) {
+        return false;
+      }
+      const validPass = bcrypt.compareSync(pass, person.pass);
+      if (!validPass) {
         return false;
       }
       return person as unknown as PersonType;
@@ -95,6 +101,23 @@ class PersonService {
       return false;
     }
   }
+  public async createUserDefault() {
+    const cantPerson = await this.person.countDocuments();
+    const passHash = bcrypt.hashSync("admin", 10);
+    if (cantPerson === 0) {
+      this.person.create({
+        names: "Admin",
+        lastname: "Admin",
+        username: "admin",
+        pass: passHash,
+        role: "admin",
+      });
+
+      log("Usuario por defecto creado");
+  }else{
+    log("Usuario por defecto ya existe");
+  }
+}
 }
 
 export default PersonService;

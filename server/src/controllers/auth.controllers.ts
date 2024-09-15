@@ -6,8 +6,8 @@ class AuthCrtl {
   constructor() {}
   async login(req: Request, res: Response) {
     try {
-      const { username, pass } = req.body;
-      const user = await this.personService.login(username, pass);
+      const { emailOrUsername, password } = req.body;
+      const user = await this.personService.login(emailOrUsername, password);
       if (!user) {
         return res.status(400).json({ status:400,message: "Credenciales inválidas!." });
       }
@@ -17,7 +17,7 @@ class AuthCrtl {
         lastname: user.lastname,
         role: user
       };
-      return res.status(200).json({status: "ok",token:token, data:dataUser,message: "Iniciando sesión"});
+      return res.status(200).json({status: 200,token:token, data:dataUser,message: "Iniciando sesión"});
     } catch (error) {
       error instanceof Error ? console.log(error.message) : console.log(error);
       return res.status(500).json({message: "Internal server error"});

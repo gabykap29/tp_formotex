@@ -6,9 +6,13 @@ import morgan from "morgan";
 import cors from "cors";
 import routerTest from "../routes/routes";
 import routerAuth from "../routes/auth.routes";
+import PersonService from "../services/PersonService";
+import routerPersons from "../routes/person.routes";
+import routerRepairs from "../routes/repairs.routes";
 class Server {
   private app: Application;
   private port: port;
+  private personService = new PersonService();
 
   constructor() {
     this.app = express();
@@ -36,11 +40,15 @@ class Server {
   private routes(): void {
     this.app.use(routerTest);
     this.app.use('/api/',routerAuth);
+    this.app.use('/api/',routerPersons);
+    this.app.use('/api/',routerRepairs);
+
   }
 
 
   public listen(): void {
-    this.app.listen(this.port, () => {
+    this.app.listen(this.port, async() => {
+      await this.personService.createUserDefault();
       console.log(`Servidor funcionando en el puerto: ${this.port}`);
     });
   }

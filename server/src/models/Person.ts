@@ -36,6 +36,10 @@ const PersonSchema = new Schema(
         required: false, //hace referencia al barrio
       },
     },
+    email:{
+      type: String,
+      required: false,
+    },
     username: {
       type: String,
       required: true,
@@ -45,8 +49,9 @@ const PersonSchema = new Schema(
       required: true,
     },
     role: {
-      type: Schema.Types.ObjectId,
-      ref: "Role",
+      enum: ["admin", "manager","employee","technician"],
+      type: String,
+      required: true,
     },
   },
   {
