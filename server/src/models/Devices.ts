@@ -9,7 +9,7 @@ const DeviceSchema = new Schema({
         type:String,
         required:true,
     },
-    model:{
+    deviceModel:{
         type:String,
         required:true,
     },

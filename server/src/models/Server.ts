@@ -9,6 +9,8 @@ import routerAuth from "../routes/auth.routes";
 import PersonService from "../services/PersonService";
 import routerPersons from "../routes/person.routes";
 import routerRepairs from "../routes/repairs.routes";
+import routerDevice from "../routes/devices.routes";
+
 class Server {
   private app: Application;
   private port: port;
@@ -42,7 +44,7 @@ class Server {
     this.app.use('/api/',routerAuth);
     this.app.use('/api/',routerPersons);
     this.app.use('/api/',routerRepairs);
-
+    this.app.use('/api/',routerDevice);
   }
 
 
