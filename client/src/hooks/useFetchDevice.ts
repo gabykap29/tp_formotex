@@ -16,29 +16,32 @@ interface IfetchError {
 
 const useFetchDevice = (initialClientId: string) => {
   const [fetchDeviceData, setFetchDeviceData] = useState<FetchDeviceData>({
-    deviceType: '',
-    brand: '',
-    deviceModel: '',
-    serialNumber: '',
-    os: '',
+    deviceType: "",
+    brand: "",
+    deviceModel: "",
+    serialNumber: "",
+    os: "",
     clientId: initialClientId, // Inicializa con clientId pasado
   });
+  const [deviceId, setDeviceId] = useState<string | null>(null); // Nuevo estado para almacenar el id del dispositivo
 
   const [error, setError] = useState<IfetchError>({ status: 0, message: "" });
 
   // Asegúrate de que fetchDeviceData.clientId se actualice si initialClientId cambia
   useEffect(() => {
-    setFetchDeviceData(prevData => ({
+    setFetchDeviceData((prevData) => ({
       ...prevData,
-      clientId: initialClientId
+      clientId: initialClientId,
     }));
   }, [initialClientId]);
 
-  const handleChangeDevice = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChangeDevice = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
     const { name, value } = e.target;
-    setFetchDeviceData(prevData => ({
+    setFetchDeviceData((prevData) => ({
       ...prevData,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -46,21 +49,29 @@ const useFetchDevice = (initialClientId: string) => {
     e.preventDefault();
     console.log(fetchDeviceData);
     try {
-      const res = await fetch('http://localhost:4000/api/devices', {
-        method: 'POST',
+      const res = await fetch("http://localhost:4000/api/devices", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(fetchDeviceData),
       });
       if (res.ok) {
-        setError({ status: res.status, message: 'Dispositivo registrado correctamente' });
+        setError({
+          status: res.status,
+          message: "Dispositivo registrado correctamente",
+        });
+        const data = await res.json();
+        setDeviceId(data.data._id);
       } else {
         const data = await res.json();
         setError({ status: res.status, message: data.message });
       }
     } catch (error) {
-      setError({ status: 500, message: 'Ocurrió un error al registrar el dispositivo' });
+      setError({
+        status: 500,
+        message: "Ocurrió un error al registrar el dispositivo",
+      });
     }
   };
 
@@ -69,6 +80,7 @@ const useFetchDevice = (initialClientId: string) => {
     handleChangeDevice,
     handleSubmitDevice,
     errorDevice: error,
+    deviceId,
   };
 };
 
