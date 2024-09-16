@@ -30,7 +30,7 @@ interface LoginData{
 
             if(result.status == 200){
                 localStorage.setItem("token",result.token)
-                window.location.href = "/";
+                window.location.href = "/pages/home";
             }else{
                 setError(result.message || 'error al iniciar sesión. Intente de nuevo!.')
             }

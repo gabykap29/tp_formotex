@@ -26,19 +26,19 @@ const Sidebar = () => {
       {/* Nav Links */}
       <ul className="nav nav-pills flex-column mb-auto">
         <li className="nav-item">
-          <Link href="#" className="nav-link active text-white" aria-current="page" style={{ backgroundColor: "#495057" }}>
+          <Link href="/pages/home" className="nav-link active text-white" aria-current="page" style={{ backgroundColor: "#495057" }}>
             <svg className="bi pe-none me-2" width="20" height="20" fill="currentColor">
               <use xlinkHref="#home"></use>
             </svg>
-            Home
+            Inicio
           </Link>
         </li>
         <li className="nav-item">
-          <Link href="#" className="nav-link text-white">
+          <Link href="/pages/repairs" className="nav-link text-white">
             <svg className="bi pe-none me-2" width="20" height="20" fill="currentColor">
               <use xlinkHref="#speedometer2"></use>
             </svg>
-            Dashboard
+            Reparaciones
           </Link>
         </li>
         <li className="nav-item">
@@ -46,7 +46,7 @@ const Sidebar = () => {
             <svg className="bi pe-none me-2" width="20" height="20" fill="currentColor">
               <use xlinkHref="#table"></use>
             </svg>
-            Orders
+            Inventario
           </Link>
         </li>
         <li className="nav-item">
@@ -54,7 +54,7 @@ const Sidebar = () => {
             <svg className="bi pe-none me-2" width="20" height="20" fill="currentColor">
               <use xlinkHref="#grid"></use>
             </svg>
-            Products
+            Clientes
           </Link>
         </li>
         <li className="nav-item">
@@ -62,7 +62,7 @@ const Sidebar = () => {
             <svg className="bi pe-none me-2" width="20" height="20" fill="currentColor">
               <use xlinkHref="#people-circle"></use>
             </svg>
-            Customers
+            Usuarios
           </Link>
         </li>
       </ul>

@@ -1,11 +1,13 @@
 import DeviceService from "../services/Devices";
 import { Request, Response } from "express";    
 import { Idevice } from "../interfaces/Idevice";
+import { log } from "console";
 
 class DeviceCtrl{
     private deviceService:DeviceService = new DeviceService();
     constructor(){}
     public async createDevice(req:Request, res:Response){
+        log(req.body);
         const device:Idevice = req.body;
         const newDevice = await this.deviceService.createDevice(device);
         if(newDevice){

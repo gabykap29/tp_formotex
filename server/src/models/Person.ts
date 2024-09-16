@@ -42,16 +42,16 @@ const PersonSchema = new Schema(
     },
     username: {
       type: String,
-      required: true,
+      required: false,
     },
     pass: {
       type: String,
-      required: true,
+      required: false,
     },
     role: {
       enum: ["admin", "manager","employee","technician"],
       type: String,
-      required: true,
+      required: false,
     },
   },
   {

@@ -1,5 +1,6 @@
 import Device from "../models/Devices";
 import { Idevice } from "../interfaces/Idevice";
+import { log } from 'console';
 class DeviceService {
     constructor(){}
     public async createDevice(device:Idevice):Promise<boolean| Idevice > {
@@ -7,6 +8,7 @@ class DeviceService {
             const newDevice = await Device.create(device);
             return newDevice as unknown as Idevice;
         } catch (error) {
+            log(error);
             return false;
         }
     }
@@ -15,6 +17,7 @@ class DeviceService {
             const devices = await Device.find();
             return devices;
         } catch (error) {
+            log(error);
             return false;
         }
     }
@@ -23,6 +26,7 @@ class DeviceService {
             const device = await Device.findById(id);
             return device as unknown as Idevice;
         } catch (error) {
+            log(error);
             return false;
         }
     }
@@ -31,6 +35,7 @@ class DeviceService {
             const updatedDevice = await Device.findByIdAndUpdate(id, device, {new:true});
             return updatedDevice as unknown as Idevice;
         } catch (error) {
+            log(error);
             return false;
         }
     }

@@ -36,6 +36,9 @@ class PersonService {
       if (!person) {
         return false;
       }
+      if(!person.pass){
+        return false;
+      }
       const validPass = bcrypt.compareSync(pass, person.pass);
       if (!validPass) {
         return false;
@@ -67,6 +70,7 @@ class PersonService {
         return false;
       }
       await newPerson.save();
+      log(newPerson)
       return newPerson;
     } catch (error) {
       log(error);

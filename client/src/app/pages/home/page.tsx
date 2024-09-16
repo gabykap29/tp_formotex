@@ -2,6 +2,8 @@
 import Sidebar from "@/components/Sidebard";
 import Header from "@/components/Header";
 import { useEffect } from "react";
+import Link from "next/link";
+
 
 const Home = () => {
   useEffect(() => {
@@ -38,7 +40,9 @@ const Home = () => {
                   <div className="card-body text-white">
                     <h5 className="card-title">Reparaciones</h5>
                     <p className="card-text">Gestión de reparaciones de productos.</p>
-                    <a href="#" className="btn btn-light">Ver más</a>
+                    <Link href={"/pages/repairs"}>
+                      <button className="btn btn-light">Ver más</button>
+                    </Link>
                   </div>
                 </div>
               </div>

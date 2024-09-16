@@ -2,6 +2,7 @@ import { Schema, model } from "mongoose";
 
 const DeviceSchema = new Schema({
     deviceType:{
+        enum:['portatil', 'escritorio', 'movil', 'tablet'],
         type:String, //portatil, escritorio, movil, tablet
         required:true,
     },
