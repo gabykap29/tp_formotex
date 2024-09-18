@@ -3,6 +3,7 @@ import { useState } from "react";
 interface FetchClientData {
   names: string;
   lastname: string;
+  typePerson: string;
   identityCardNumber: string;
   birthDate: string;
   address: {
@@ -15,6 +16,7 @@ interface FetchClientData {
 const useFetchClient = () => {
   const [fetchClientData, setFetchClientData] = useState<FetchClientData>({
     names: '',
+    typePerson: "client",
     lastname: '',
     identityCardNumber: '',
     birthDate: '',
@@ -24,13 +26,13 @@ const useFetchClient = () => {
       neighborhood: '',
     },
   });
-  
+
   interface IfetchError {
     status: number;
     message: string;
   }
 
-  const [error, setError] = useState<IfetchError>({status: 0, message: ""});
+  const [error, setError] = useState<IfetchError>({ status: 0, message: "" });
   const [clientId, setClientId] = useState<string | null>(null); // Nuevo estado para almacenar el id del cliente
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -66,17 +68,17 @@ const useFetchClient = () => {
 
       const data = await res.json();
       if (data.status !== 201 && data.status !== 200) {
-        setError({status: data.status, message: data.message});
+        setError({ status: data.status, message: data.message });
         setClientId(null); // Si hay error, no hay id
       } else {
-        setError({status: data.status, message: data.message});
+        setError({ status: data.status, message: data.message });
         setClientId(data.data._id); // Asumiendo que el id se encuentra en `data.id`
       }
 
       return data;
     } catch (error) {
       console.error(error);
-      setError({status: 500, message: 'Ocurrió un error al intentar crear el cliente'});
+      setError({ status: 500, message: 'Ocurrió un error al intentar crear el cliente' });
       setClientId(null); // Si ocurre un error, no hay id
     }
   };

@@ -75,7 +75,7 @@ const Sidebar = () => {
           </Link>
         </li>
         <li className="nav-item">
-          <Link href="#" className="nav-link text-white">
+          <Link href="/pages/clients" className="nav-link text-white">
             <svg
               className="bi pe-none me-2"
               width="20"
@@ -88,7 +88,7 @@ const Sidebar = () => {
           </Link>
         </li>
         <li className="nav-item">
-          <Link href="#" className="nav-link text-white">
+          <Link href="/pages/users" className="nav-link text-white">
             <svg
               className="bi pe-none me-2"
               width="20"

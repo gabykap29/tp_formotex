@@ -77,7 +77,9 @@ const Home = () => {
                     <div className="card-body text-white">
                       <h5 className="card-title">Clientes</h5>
                       <p className="card-text">Gestión de clientes y ventas.</p>
-                      <a href="#" className="btn btn-light">Ver más</a>
+                      <Link href={'/pages/clients'}>
+                        <button className="btn btn-light">Ver más</button>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -88,7 +90,9 @@ const Home = () => {
                     <div className="card-body text-white">
                       <h5 className="card-title">Usuarios</h5>
                       <p className="card-text">Gestión de usuarios del sistema.</p>
-                      <a href="#" className="btn btn-light">Ver más</a>
+                      <Link href={'/pages/users'}>
+                        <button className="btn btn-light">Ver más</button>
+                      </Link>
                     </div>
                   </div>
                 </div>

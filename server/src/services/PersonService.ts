@@ -3,6 +3,7 @@ import Person from "../models/Person";
 import { log } from "console";
 import { PersonType } from "../types/types";
 import bcrypt from "bcrypt";
+import PersonCtrl from "../controllers/person.controllers";
 class PersonService {
   private person: typeof Person;
 
@@ -27,6 +28,18 @@ class PersonService {
       return false;
     }
   }
+  public async getUsers() {
+    try {
+      // Obtén los usuarios que tienen un campo `username` definido y no vacío
+      const users = await Person.find({
+        username: { $exists: true, $ne: "" }
+      });
+      return users;
+    } catch (error) {
+      console.error("Error al obtener usuarios:", error);
+      throw new Error("No se pudieron obtener los usuarios");
+    }
+  }
 
   public async login(username: string, pass: string) {
     try {
@@ -36,7 +49,7 @@ class PersonService {
       if (!person) {
         return false;
       }
-      if(!person.pass){
+      if (!person.pass) {
         return false;
       }
       const validPass = bcrypt.compareSync(pass, person.pass);
@@ -49,7 +62,18 @@ class PersonService {
       return false;
     }
   }
-
+  public async getClients() {
+    try {
+      const clients = await Person.find({ typePerson: "client" });
+      if (!clients) {
+        return false;
+      }
+      return clients;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  }
   public async getOne(id: string) {
     try {
       const person = await this.person.findById(id).lean();
@@ -118,10 +142,10 @@ class PersonService {
       });
 
       log("Usuario por defecto creado");
-  }else{
-    log("Usuario por defecto ya existe");
+    } else {
+      log("Usuario por defecto ya existe");
+    }
   }
-}
 }
 
 export default PersonService;
