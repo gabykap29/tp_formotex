@@ -4,7 +4,7 @@ import { Request, Response } from "express";
 import { tokenType } from "../types/types";
 class RepairCtrl {
   private repairService = new RepairService();
-  constructor() {}
+  constructor() { }
   async getAll(_req: Request, res: Response) {
     try {
       const repairs = await this.repairService.getAll();
@@ -51,7 +51,20 @@ class RepairCtrl {
       });
     }
   }
-
+  async getByDevice(req: Request, res: Response) {
+    try {
+      const id: string = req.params.id || "";
+      console.log("este es el id: ", id);
+      const repairs = await this.repairService.getOneByDevice(id)
+      if (!repairs) {
+        return res.status(400).json({ status: 400, message: "Error, no se encontró la reparación" });
+      }
+      return res.status(200).json({ status: 200, data: repairs });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ status: 500, message: "Error interno del servidor" });
+    }
+  }
   async getOneByClient(req: Request, res: Response) {
     try {
       const { identityCardNumber } = req.params;

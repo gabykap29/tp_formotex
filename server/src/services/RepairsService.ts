@@ -112,6 +112,26 @@ class RepairService {
       return false;
     }
   }
+
+  public async getOneByDevice(id: string) {
+    try {
+      console.log("id", id);
+      const repair = await Repair.findOne({ device: id })
+        .populate("device")
+        .populate("client")
+        .populate("technician");
+
+      if (!repair) {
+        return false; // Si no se encuentra ninguna reparación, devolver false
+      }
+      console.log(repair)
+      return repair; // Devuelve la reparación si existe
+    } catch (error) {
+      console.log(error);
+      return false; // En caso de error, devuelve false
+    }
+  }
+
 }
 
 export default RepairService;
