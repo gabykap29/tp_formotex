@@ -43,9 +43,10 @@ class PersonService {
 
   public async login(username: string, pass: string) {
     try {
+      console.log(username);
       const person = await this.person.findOne({ username: username }).lean();
       log(person);
-
+      console.log("pass", pass)
       if (!person) {
         return false;
       }

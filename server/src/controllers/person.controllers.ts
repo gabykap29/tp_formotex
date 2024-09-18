@@ -2,6 +2,7 @@ import PersonService from "../services/PersonService";
 import Iperson from "../interfaces/Ipersons";
 import { log } from "console";
 import { Request, Response } from "express";
+import bcrypt from "bcrypt";
 
 class PersonCtrl {
   private personService = new PersonService();
@@ -20,7 +21,13 @@ class PersonCtrl {
   }
   async create(req: Request, res: Response) {
     try {
+
       const person: Iperson = req.body;
+
+      if (person.pass) {
+        const passHash = bcrypt.hashSync("admin", 10);
+        person.pass = passHash;
+      }
       const newPerson = await this.personService.create(person);
       if (!newPerson) {
         return res.status(400).json({ status: 400, message: "Persona no creada" });

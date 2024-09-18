@@ -1,5 +1,3 @@
-// pages/users.tsx
-
 "use client";
 import { FaSearch, FaPlus } from "react-icons/fa";
 import Header from "@/components/Header";
@@ -8,19 +6,31 @@ import Link from "next/link";
 import { useFetchUsersList } from "@/hooks/useFetchUsersList";
 import dayjs from 'dayjs';
 import { useAuth } from "@/context/AuthContex";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import CreateUserModal from "@/components/UserModal";
+import useCreateUser from "@/hooks/useCreateUser"; // Importa el hook de creación de usuario
 
 const UsersPage = () => {
   const { users, error } = useFetchUsersList();
   const { isAutenticated } = useAuth();
   const router = useRouter();
+  const [showModal, setShowModal] = useState(false); // Estado para mostrar el modal
+  const { createUser, loading, error: createUserError, success } = useCreateUser(); // Hook para crear usuario
 
   useEffect(() => {
     if (isAutenticated === false) {
       router.push("/pages/login"); // Redirige si no está autenticado
     }
   }, [isAutenticated, router]);
+
+  const handleShowModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
+
+  const handleCreateUser = (userData) => {
+    createUser(userData); // Llama al hook para crear el usuario
+    handleCloseModal(); // Cierra el modal después de la creación
+  };
 
   if (!isAutenticated) {
     return null;
@@ -44,11 +54,13 @@ const UsersPage = () => {
               </p>
             </div>
             <div>
-              <Link href="/pages/users/add">
-                <button className="btn btn-primary d-flex align-items-center" style={{ backgroundColor: "#1a73e8", border: "none", padding: "0.6rem 1.2rem", borderRadius: "4px" }}>
-                  <FaPlus className="me-2" /> Nuevo Usuario
-                </button>
-              </Link>
+              <button
+                className="btn btn-primary d-flex align-items-center"
+                style={{ backgroundColor: "#1a73e8", border: "none", padding: "0.6rem 1.2rem", borderRadius: "4px" }}
+                onClick={handleShowModal} // Abre el modal
+              >
+                <FaPlus className="me-2" /> Nuevo Usuario
+              </button>
             </div>
           </div>
 
@@ -86,7 +98,6 @@ const UsersPage = () => {
                         <th>Nombre</th>
                         <th>Usuario</th>
                         <th>Fecha de creación</th>
-
                       </tr>
                     </thead>
                     <tbody>
@@ -114,6 +125,13 @@ const UsersPage = () => {
           </div>
         </div>
       </div>
+
+      {/* Modal para crear usuario */}
+      <CreateUserModal
+        show={showModal}
+        handleClose={handleCloseModal}
+        handleCreateUser={handleCreateUser}
+      />
     </div>
   );
 };

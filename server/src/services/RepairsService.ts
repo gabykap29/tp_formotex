@@ -99,19 +99,39 @@ class RepairService {
   public async updateStateRepair(
     id: string,
     state: string,
+    cost: number
   ): Promise<Irepairs | boolean> {
     try {
-      const repair = await Repair.findByIdAndUpdate(
-        id,
-        { status: state },
-        { new: true },
-      ).lean();
+
+
+
+      // Encuentra el documento
+      const repair = await Repair.findById(id).lean();
+
       if (!repair) {
+        console.log('Repair not found');
         return false;
       }
-      return repair as unknown as Irepairs;
+
+      // Realiza la actualización
+      const result = await Repair.updateOne(
+        { _id: id },
+        { $set: { status: state, cost: cost } }
+      );
+
+      console.log('Update result:', result);
+
+      // Si no se ha modificado ningún documento
+      if (result.modifiedCount === 0) {
+        console.log('No changes were made to the repair');
+        return false;
+      }
+
+      // Devuelve el documento actualizado
+      const updatedRepair = await Repair.findById(id).lean();
+      return updatedRepair as unknown as Irepairs;
     } catch (error) {
-      log(error);
+      console.error('Error updating repair state:', error);
       return false;
     }
   }

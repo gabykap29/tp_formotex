@@ -36,7 +36,7 @@ const PersonSchema = new Schema(
         required: false, //hace referencia al barrio
       },
     },
-    email:{
+    email: {
       type: String,
       required: false,
     },
@@ -49,7 +49,7 @@ const PersonSchema = new Schema(
       required: false,
     },
     role: {
-      enum: ["admin", "manager","employee","technician"],
+      enum: ["admin", "manager", "user", "technician"],
       type: String,
       required: false,
     },

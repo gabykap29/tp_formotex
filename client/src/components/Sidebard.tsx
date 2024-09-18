@@ -1,6 +1,16 @@
+"use client";
 import Link from "next/link";
-
+import { useState, useEffect } from "react";
 const Sidebar = () => {
+  const [role, setRole] = useState("");
+
+  useEffect(() => {
+    // Obtener el rol desde localStorage
+    const storedRole = localStorage.getItem("role");
+    setRole(storedRole);
+  }, []);
+
+
   return (
     <div
       className="d-flex flex-column flex-shrink-0 p-3 text-white"
@@ -87,19 +97,24 @@ const Sidebar = () => {
             Clientes
           </Link>
         </li>
-        <li className="nav-item">
-          <Link href="/pages/users" className="nav-link text-white">
-            <svg
-              className="bi pe-none me-2"
-              width="20"
-              height="20"
-              fill="currentColor"
-            >
-              <use xlinkHref="#people-circle"></use>
-            </svg>
-            Usuarios
-          </Link>
-        </li>
+        {role === "admin" ? (
+          <li className="nav-item">
+            <Link href="/pages/users" className="nav-link text-white">
+              <svg
+                className="bi pe-none me-2"
+                width="20"
+                height="20"
+                fill="currentColor"
+              >
+                <use xlinkHref="#people-circle"></use>
+              </svg>
+              Usuarios
+            </Link>
+          </li>
+        ) : (
+          ""
+        )
+        }
       </ul>
 
       <hr style={{ borderColor: "#495057" }} />

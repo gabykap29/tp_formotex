@@ -32,7 +32,9 @@ const useLogin = () => {
       const result = await response.json();
 
       if (result.status === 200) {
+        console.log(result);
         localStorage.setItem('token', result.token);
+        localStorage.setItem('role', result.data.role)
         login(); // Llamar a la función login del contexto
         router.push('/pages/home'); // Redirigir con router
       } else {

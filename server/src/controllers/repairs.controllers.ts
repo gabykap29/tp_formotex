@@ -87,8 +87,10 @@ class RepairCtrl {
   }
   async updateStateRepair(req: Request, res: Response) {
     try {
-      const { id, state } = req.body;
-      const repair = await this.repairService.updateStateRepair(id, state);
+      console.log("llego al ctrl", req.body);
+      const { id } = req.params;
+      const { status, cost } = req.body;
+      const repair = await this.repairService.updateStateRepair(id, status, cost);
       if (!repair) {
         return res.status(400).json({
           status: 400,

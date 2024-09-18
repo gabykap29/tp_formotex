@@ -14,9 +14,9 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
 
-      <main className="min-vh-100 d-flex flex-column">
+      <main className="min-vh-100 d-flex flex-column bg-dark text-light">
         {/* Hero Section */}
-        <section className="hero-section text-white text-center py-5" style={{ backgroundColor: '#3498db' }}>
+        <section className="hero-section text-center py-5" style={{ backgroundColor: '#343a40' }}>
           <Container>
             <h1 className="display-3 mb-4">Bienvenidos a FORMOTEX</h1>
             <p className="lead mb-4">
@@ -25,14 +25,14 @@ export default function Home() {
             <Row className="justify-content-center">
               <Col xs={12} md={6} lg={4} className="mb-3">
                 <Link href="/pages/login" passHref>
-                  <Button className="w-100" variant="light" size="lg">
+                  <Button className="w-100" variant="outline-light" size="lg">
                     <FaSignInAlt className="me-2" /> Área de Empleados
                   </Button>
                 </Link>
               </Col>
               <Col xs={12} md={6} lg={4} className="mb-3">
-                <Link href="/register" passHref>
-                  <Button className="w-100" variant="light" size="lg">
+                <Link href="/public" passHref>
+                  <Button className="w-100" variant="outline-light" size="lg">
                     <FaUserCheck className="me-2" /> Consultar Estado del Equipo
                   </Button>
                 </Link>
@@ -42,11 +42,11 @@ export default function Home() {
         </section>
 
         {/* Information Section */}
-        <section className="py-5" style={{ backgroundColor: '#f8f9fa' }}>
+        <section className="py-5" style={{ backgroundColor: '#495057' }}>
           <Container>
             <Row className="text-center">
               <Col md={4} className="mb-4">
-                <div className="p-4 rounded shadow-sm" style={{ backgroundColor: '#e74c3c', color: '#fff' }}>
+                <div className="p-4 rounded shadow-sm" style={{ backgroundColor: '#6c757d', color: '#fff' }}>
                   <h5 className="fw-bold mb-3">Servicios Rápidos</h5>
                   <p>
                     Realizamos reparaciones y mantenimientos en el menor tiempo posible sin comprometer la calidad.
@@ -54,7 +54,7 @@ export default function Home() {
                 </div>
               </Col>
               <Col md={4} className="mb-4">
-                <div className="p-4 rounded shadow-sm" style={{ backgroundColor: '#1abc9c', color: '#fff' }}>
+                <div className="p-4 rounded shadow-sm" style={{ backgroundColor: '#adb5bd', color: '#333' }}>
                   <h5 className="fw-bold mb-3">Soporte Especializado</h5>
                   <p>
                     Nuestro equipo de expertos está altamente capacitado para resolver cualquier problema técnico que tengas.
@@ -62,7 +62,7 @@ export default function Home() {
                 </div>
               </Col>
               <Col md={4} className="mb-4">
-                <div className="p-4 rounded shadow-sm" style={{ backgroundColor: '#f1c40f', color: '#333' }}>
+                <div className="p-4 rounded shadow-sm" style={{ backgroundColor: '#ced4da', color: '#333' }}>
                   <h5 className="fw-bold mb-3">Atención Personalizada</h5>
                   <p>
                     Ofrecemos un enfoque personalizado para cada cliente, asegurando que recibas la mejor atención posible.
@@ -86,7 +86,7 @@ export default function Home() {
                 <p><strong>Teléfono:</strong> +123 456 7890</p>
               </Col>
               <Col md={6}>
-                <div className="bg-light p-4 rounded shadow-sm">
+                <div className="bg-secondary p-4 rounded shadow-sm">
                   <h5 className="fw-bold mb-3">Formulario de Contacto</h5>
                   <form>
                     <div className="mb-3">
@@ -112,3 +112,4 @@ export default function Home() {
     </>
   );
 }
+
