@@ -85,7 +85,7 @@ const UsersPage = () => {
                         <th>ID</th>
                         <th>Nombre</th>
                         <th>Usuario</th>
-                        <th>Fecha Inicio</th>
+                        <th>Fecha de creación</th>
 
                       </tr>
                     </thead>

@@ -10,8 +10,8 @@ import { useAuth } from "@/context/AuthContex";
 import { useFetchInventory } from "@/hooks/useInventory";
 import { useRouter } from "next/navigation";
 import dayjs from "dayjs";
-import RepairModal from "@/components/RepairModal"; // Asegúrate de que la ruta sea correcta
-import { useFetchRepairById } from "@/hooks/useFetchRepairById"; // Hook para obtener reparación por ID
+import RepairModal from "@/components/RepairModal";
+import { useFetchRepairById } from "@/hooks/useFetchRepairById";
 
 const InventaryPage = () => {
   const { devices, loading, error } = useFetchInventory();
@@ -19,10 +19,11 @@ const InventaryPage = () => {
   const router = useRouter();
   const [selectedRepairId, setSelectedRepairId] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [searchTerm, setSearchTerm] = useState(""); // Nuevo estado para el término de búsqueda
 
   useEffect(() => {
     if (isAutenticated === false) {
-      router.push("/pages/login"); // Redirige a la página de login si no está autenticado
+      router.push("/pages/login");
     }
   }, [isAutenticated, router]);
 
@@ -37,6 +38,18 @@ const InventaryPage = () => {
   };
 
   const { repair, loading: loadingRepair } = useFetchRepairById(selectedRepairId);
+
+  // Filtramos los dispositivos según el término de búsqueda
+  const filteredDevices = devices.filter((repair) => {
+    const searchLower = searchTerm.toLowerCase();
+    return (
+      repair.deviceType.toLowerCase().includes(searchLower) ||
+      repair.brand.toLowerCase().includes(searchLower) ||
+      repair.serialNumber.toLowerCase().includes(searchLower) ||
+      repair.clientId.lastname.toLowerCase().includes(searchLower) ||
+      repair.clientId.names.toLowerCase().includes(searchLower)
+    );
+  });
 
   if (loading) return <p>Loading...</p>;
 
@@ -66,10 +79,12 @@ const InventaryPage = () => {
                     type="text"
                     className="form-control"
                     id="search"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)} // Actualiza el estado de búsqueda
                     placeholder="Buscar por ID, producto, cliente..."
                     style={{ borderRadius: "4px 0 0 4px", boxShadow: "none" }}
                   />
-                  <button type="submit" className="btn btn-primary" style={{ backgroundColor: "#1a73e8", border: "none", borderRadius: "0 4px 4px 0" }}>
+                  <button disabled type="button" className="btn btn-primary" style={{ backgroundColor: "#1a73e8", border: "none", borderRadius: "0 4px 4px 0" }}>
                     <FaSearch className="me-2" /> Buscar
                   </button>
                 </div>
@@ -81,8 +96,8 @@ const InventaryPage = () => {
           <div className="row">
             {error ? (
               <div className="alert alert-danger">{error.message}</div>
-            ) : devices.length > 0 ? (
-              devices.map((repair) => (
+            ) : filteredDevices.length > 0 ? (
+              filteredDevices.map((repair) => (
                 <div className="col-md-4 mb-4" key={repair._id}>
                   <div className="card border-0 rounded-lg shadow-lg" style={{ backgroundColor: "#ffffff", transition: "transform 0.2s" }}>
                     <div className="card-body d-flex flex-column">

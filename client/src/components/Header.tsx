@@ -1,6 +1,10 @@
+"use client";
 import Link from "next/link";
+import { useAuth } from "@/context/AuthContex";
+
 
 const Header = () => {
+  const { logout } = useAuth();
   return (
     <div
       className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center p-3 mb-3 border-bottom text-white"
@@ -41,11 +45,14 @@ const Header = () => {
         {/* Botón de cuenta con ícono */}
         <button
           type="button"
-          className="btn btn-sm btn-outline-light dropdown-toggle"
-          style={{ marginLeft: "10px" }}
+          className="btn btn-sm btn-danger" // Cambié a 'btn-danger' para darle un color rojo asociado con acciones de cierre o eliminación
+          style={{ marginLeft: "10px", display: "flex", alignItems: "center", padding: "0.5rem 1rem", borderRadius: "4px" }}
+          onClick={logout}
         >
-          <i className="bi bi-person-circle me-1"></i> Cuenta
+          <i className="bi bi-box-arrow-right me-2"></i> {/* Icono de salida */}
+          Cerrar Sesión
         </button>
+
       </div>
     </div>
   );

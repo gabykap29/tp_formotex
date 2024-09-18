@@ -83,7 +83,10 @@ class RepairService {
       if (!person) {
         return false;
       }
-      const repairs = await Repair.find({ client: person._id }).lean();
+      const repairs = await Repair.find({ client: person._id })
+        .populate("device")
+        .populate("client", "lastname names")
+        .lean();
       if (!repairs || repairs.length === 0) {
         return false;
       }

@@ -55,7 +55,7 @@ class RepairCtrl {
     try {
       const id: string = req.params.id || "";
       console.log("este es el id: ", id);
-      const repairs = await this.repairService.getOneByDevice(id)
+      const repairs = await this.repairService.getOneByDevice(id);
       if (!repairs) {
         return res.status(400).json({ status: 400, message: "Error, no se encontró la reparación" });
       }

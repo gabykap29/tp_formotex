@@ -1,18 +1,20 @@
 "use client";
-import { FaSearch, FaPlus } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebard";
 import Link from "next/link";
 import { useFetchClientsList } from "@/hooks/useClientList";
 import dayjs from 'dayjs';
 import { useAuth } from "@/context/AuthContex";
-import { useEffect } from "react";
+import { useEffect, useState } from "react"; // Importamos useState
 import { useRouter } from "next/navigation";
 
 const ClientsPage = () => {
   const { clients, error } = useFetchClientsList();
   const { isAutenticated } = useAuth();
   const router = useRouter();
+
+  const [searchTerm, setSearchTerm] = useState(""); // Almacena el término de búsqueda
 
   useEffect(() => {
     if (isAutenticated === false) {
@@ -23,6 +25,19 @@ const ClientsPage = () => {
   if (!isAutenticated) {
     return null;
   }
+
+  // Filtra los clientes en función del término de búsqueda
+  const filteredClients = clients.filter((client) => {
+    const clientFullName = `${client.lastname} ${client.names}`.toLowerCase();
+    const identityCardNumber = client.identityCardNumber.toLowerCase();
+    const address = `${client.address.street} ${client.address.number}`.toLowerCase();
+
+    return (
+      clientFullName.includes(searchTerm.toLowerCase()) ||
+      identityCardNumber.includes(searchTerm.toLowerCase()) ||
+      address.includes(searchTerm.toLowerCase())
+    );
+  });
 
   return (
     <div className="d-flex" id="wrapper" style={{ height: "100vh", overflow: "hidden", backgroundColor: "#f5f5f5" }}>
@@ -41,25 +56,23 @@ const ClientsPage = () => {
                 Encuentra, administra y agrega clientes de manera eficiente.
               </p>
             </div>
-            <div>
-              <Link href="/pages/repairs/add">
-                <button className="btn btn-primary d-flex align-items-center" style={{ backgroundColor: "#1a73e8", border: "none", padding: "0.6rem 1.2rem", borderRadius: "4px" }}>
-                  <FaPlus className="me-2" /> Nuevo Cliente
-                </button>
-              </Link>
-            </div>
           </div>
 
           {/* Búsqueda */}
           <div className="card shadow-sm mb-4" style={{ borderRadius: "8px" }}>
             <div className="card-body">
-              <form className="d-flex align-items-center">
+              <form
+                className="d-flex align-items-center"
+                onSubmit={(e) => e.preventDefault()} // Evita el refresh de la página al buscar
+              >
                 <div className="input-group flex-grow-1">
                   <input
                     type="text"
                     className="form-control"
                     id="search"
                     placeholder="Buscar por nombre, documento, dirección..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)} // Actualiza el término de búsqueda
                     style={{ borderRadius: "4px 0 0 4px", boxShadow: "none" }}
                   />
                   <button type="submit" className="btn btn-primary" style={{ backgroundColor: "#1a73e8", border: "none", borderRadius: "0 4px 4px 0" }}>
@@ -89,8 +102,8 @@ const ClientsPage = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {clients.length > 0 ? (
-                        clients.map((client, index) => (
+                      {filteredClients.length > 0 ? (
+                        filteredClients.map((client, index) => (
                           <tr key={client._id} style={{ cursor: "pointer", color: "#202124" }}>
                             <td>{index + 1}</td>
                             <td>{client.lastname + " " + client.names}</td>
