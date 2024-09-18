@@ -62,7 +62,10 @@ class RepairService {
   }
   public async getAll(): Promise<Irepairs[] | boolean> {
     try {
-      const repairs = await Repair.find().lean();
+      const repairs = await Repair.find().populate([
+        "client",
+        "device",
+      ]).lean();
       if (!repairs || repairs.length === 0) {
         return false;
       }

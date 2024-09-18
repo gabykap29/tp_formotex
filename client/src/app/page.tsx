@@ -1,3 +1,4 @@
+"use client";
 import Link from 'next/link';
 import Head from 'next/head';
 import { Container, Row, Col, Button } from 'react-bootstrap';
@@ -98,7 +99,7 @@ export default function Home() {
                     </div>
                     <div className="mb-3">
                       <label htmlFor="message" className="form-label">Mensaje</label>
-                      <textarea className="form-control" id="message"  placeholder="Tu mensaje"></textarea>
+                      <textarea className="form-control" id="message" placeholder="Tu mensaje"></textarea>
                     </div>
                     <Button variant="primary" type="submit">Enviar</Button>
                   </form>

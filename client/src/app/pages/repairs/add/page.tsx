@@ -7,7 +7,11 @@ import { FormEvent } from "react";
 import useFetchClient from "@/hooks/useFetchClient";
 import useFetchDevice from "@/hooks/useFetchDevice";
 import useFetchRepair from "@/hooks/useFetchRepairs";
+import { useAuth } from "@/context/AuthContex";
+import { useRouter } from "next/navigation";
+
 const RegisterRepairPage: React.FC = () => {
+  const router = useRouter();
   const { fetchClientData, handleChange, handleSubmit, error, clientId } =
     useFetchClient(); // Usar el hook para gestionar los datos del cliente
   const {
@@ -16,21 +20,22 @@ const RegisterRepairPage: React.FC = () => {
     handleSubmitDevice,
     errorDevice,
     deviceId,
-  } = useFetchDevice(clientId);
-
+  } = useFetchDevice(clientId || "");
+  const { isAutenticated } = useAuth()
   const { errorRepair, handleSubmitRepairs } = useFetchRepair(
-    clientId,
-    deviceId,
+    clientId || "",
+    deviceId || "",
   );
   useEffect(() => {
-    // Bloquear el scroll
-    document.body.style.overflow = "hidden";
 
-    // Restaurar el scroll al desmontar el componente
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, []);
+    if (isAutenticated === false) {
+      router.push("/pages/login"); // redirige a la página de login si no está autenticado
+    }
+  }, [isAutenticated, router]);
+
+  if (!isAutenticated) {
+    return null;
+  }
 
   const handleRegisterSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -60,8 +65,8 @@ const RegisterRepairPage: React.FC = () => {
             {/* Mostrar mensaje de error */}
             {/* Mostrar mensaje de error */}
             {errorRepair.status !== 201 &&
-            errorRepair.status !== 200 &&
-            errorRepair.status !== 0 ? (
+              errorRepair.status !== 200 &&
+              errorRepair.status !== 0 ? (
               <div className="alert alert-danger mt-3 p-2 fs-6">
                 {errorRepair.message}
               </div>
@@ -94,8 +99,8 @@ const RegisterRepairPage: React.FC = () => {
                   <h6 className="m-0">Registrar Cliente</h6>
                 </div>
                 {error.status !== 201 &&
-                error.status !== 200 &&
-                error.status !== 0 ? (
+                  error.status !== 200 &&
+                  error.status !== 0 ? (
                   <div className="alert alert-danger mt-3 mx-2 p-2 fs-6">
                     {error.message}
                   </div>
@@ -238,10 +243,10 @@ const RegisterRepairPage: React.FC = () => {
                   <h6 className="m-0">Registrar Dispositivo</h6>
                 </div>
                 {errorDevice &&
-                typeof errorDevice === "object" &&
-                errorDevice.status !== 201 &&
-                errorDevice.status !== 200 &&
-                errorDevice.status !== 0 ? (
+                  typeof errorDevice === "object" &&
+                  errorDevice.status !== 201 &&
+                  errorDevice.status !== 200 &&
+                  errorDevice.status !== 0 ? (
                   <div className="alert alert-danger mt-3 mx-2 p-2 fs-6">
                     {errorDevice.message}
                   </div>
@@ -249,7 +254,7 @@ const RegisterRepairPage: React.FC = () => {
                   typeof errorDevice === "object" &&
                   (errorDevice.status === 201 || errorDevice.status === 200) ? (
                   <div className="alert alert-success mt-3 mx-2 p-2 fs-6">
-                    Cliente registrado correctamente.
+                    Dispositivo registrado correctamente.
                   </div>
                 ) : null}
 
@@ -267,13 +272,11 @@ const RegisterRepairPage: React.FC = () => {
                         Tipo de Dispositivo
                       </label>
                       <select
-                        type="text"
                         className="form-control"
                         id="deviceType"
                         name="deviceType"
                         value={fetchDeviceData.deviceType}
                         onChange={handleChangeDevice}
-                        placeholder="Portátil, escritorio, móvil, tablet"
                       >
                         <option selected>
                           Seleccione un tipo de dispositivo

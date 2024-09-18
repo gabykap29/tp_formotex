@@ -1,8 +1,12 @@
 "use client";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import useLogin from '@/hooks/useLogin';
+import { useRouter } from 'next/navigation';
+
 export default function Login() {
   const { loginData, error, handleChange, handleSubmit } = useLogin();
+  const router = useRouter();
+
   return (
     <div className="min-vh-100 d-flex justify-content-center align-items-center bg-light">
       <div className="bg-white p-4 rounded shadow w-100" style={{ maxWidth: '400px' }}>
@@ -10,7 +14,7 @@ export default function Login() {
         {error && <div className="alert alert-danger">{error}</div>}
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
-            <label htmlFor="email" className="form-label">Correo Electrónico/Usuario</label>
+            <label htmlFor="emailOrUsername" className="form-label">Correo Electrónico/Usuario</label>
             <input
               type="text"
               className="form-control"
@@ -54,3 +58,4 @@ export default function Login() {
     </div>
   );
 }
+
