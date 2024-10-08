@@ -1,7 +1,7 @@
 import express, { Application } from "express";
 import { PORT } from "../config/config";
 import { port } from "../types/types";
-import { connectDB } from "../database/db";
+import { db } from "../database/db";
 import morgan from "morgan";
 import cors from "cors";
 import routerTest from "../routes/routes";
@@ -27,7 +27,7 @@ class Server {
 
 
   private async dbConnect(): Promise<void> {
-    await connectDB();
+    await db.connect();
   }
 
 

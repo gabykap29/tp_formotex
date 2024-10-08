@@ -1,14 +1,41 @@
-import { connect } from "mongoose";
+import mongoose, { Connection } from "mongoose";
 import { MONGO_URI } from "../config/config";
 
-const urlDb = MONGO_URI as string;
+class dbManager {
+  private static instance: dbManager | null = null;
+  private connectionDb: Connection | null = null;
+  private uri: string | null = MONGO_URI;
+  private constructor() {}
 
-export const connectDB = async (): Promise<void> => {
-    try {
-        const connection = await connect(urlDb);
-        console.log(`Conectado a la base de datos: ${connection.connection.name}`);
-    } catch (error) {
-        console.log(`Error al conectar a la base de datos: ${error}`);
-        
+  public static getInstance(): dbManager {
+    if (dbManager.instance === null) {
+      dbManager.instance = new dbManager();
     }
+    return dbManager.instance;
+  }
+
+  public async connect(): Promise<void> {
+    if (this.connectionDb) {
+      console.log("La conexión ya se encuentra establecida!");
+      return;
+    }
+    try {
+      if (this.uri !== null) {
+        const connection = await mongoose.connect(this.uri);
+        this.connectionDb = connection.connection;
+        console.log("Conexión establecida!");
+      } else {
+        console.log("No se ha proporcionado una url a la bd válida!");
+      }
+    } catch (error) {
+      console.log("Error al intentar conectar a la base de datos" + error);
+      throw error;
+    }
+  }
+
+  public getConnection(): Connection | null {
+    return this.connectionDb;
+  }
 }
+
+export const db = dbManager.getInstance();
